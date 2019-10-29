@@ -12,9 +12,12 @@ mv openDCIM-19.01 dcim
 
 docker build . -t opendcim/opendcim:19.01-ubuntu -t opendcim/opendcim:19.01 -t opendcim/opendcim:latest --no-cache
 
-# docker push opendcim/opendcim:19.01-ubuntu
-# docker push opendcim/opendcim:19.01
-# docker push opendcim/opendcim:latest
+# To push to docker hub, you must either already be logged in, or add the following line:
+# docker login -u mydockerid -p mydockerpassword
+
+docker push opendcim/opendcim:19.01-ubuntu
+docker push opendcim/opendcim:19.01
+docker push opendcim/opendcim:latest
 
 rm -rf dcim
 rm openDCIM-19.01.tar.gz
