@@ -14,6 +14,8 @@ ENV LANG en_US.utf8
 
 COPY dcim/ /var/www/html/
 COPY dcim/db.inc.php-dist /var/www/html/db.inc.php
+# Use a different installer for the containers - automatic, and requiring the db to be new or at least at 19.01
+COPY dcim/container-install.php /var/www/html/install.php
 COPY 000-default.conf /etc/apache2/sites-available/
 COPY 100-opendcim.ini /etc/php/7.2/apache2/conf.d
 
