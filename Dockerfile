@@ -6,7 +6,7 @@ RUN apt-get update
 COPY tzscript.sh /usr/local/bin
 RUN /usr/local/bin/tzscript.sh
 RUN apt-get -y install mariadb-client libapache2-mod-webauthldap apache2 \
-  php php-mbstring php-snmp php-gd php-mysql php-zip \
+  php php-mbstring php-snmp php-gd php-mysql php-zip  php-redis \
   php-xml php-gettext locales graphviz && rm -rf /var/lib/apt/lists/* && \
   localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
   a2enmod rewrite authnz_ldap && rm /var/www/html/index.html
