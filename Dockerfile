@@ -20,6 +20,6 @@ COPY 000-default.conf /etc/apache2/sites-available/
 COPY 100-opendcim.ini /etc/php/7.2/apache2/conf.d
 
 RUN mkdir -p /var/www/html/vendor/mpdf/ttfontdata && mkdir -p /var/www/html/assets && chown -R www-data:www-data /var/www/html && \
-  chmod 775 /var/www/html/assets /var/www/html/pictures /var/www/html/drawings /var/www/html/vendor/mpdf/ttfontdata
+  chmod 775 /var/www/html/assets /var/www/html/pictures /var/www/html/drawings /var/www/html/vendor/mpdf/ttfontdata && rm -f /var/log/apache2/*.log && ln -s /dev/stderr /var/log/apache2/error.log && ln -s /dev/stdout /var/log/apache2/access.log
 
 CMD apachectl -D FOREGROUND
