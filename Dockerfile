@@ -5,8 +5,8 @@ RUN apt-get update
 
 COPY tzscript.sh /usr/local/bin
 RUN /usr/local/bin/tzscript.sh
-RUN apt-get -y install mariadb-client libapache2-mod-webauthldap apache2 \
-  php php-mbstring php-snmp php-gd php-mysql php-zip php-curl  php-redis \
+RUN apt-get -y install mariadb-client apache2 \
+  php php-mbstring php-snmp php-gd php-mysql php-zip php-curl php-ldap php-redis \
   php-xml php-gettext locales graphviz && rm -rf /var/lib/apt/lists/* && \
   localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
   a2enmod rewrite authnz_ldap && rm /var/www/html/index.html
@@ -20,6 +20,7 @@ COPY 000-default.conf /etc/apache2/sites-available/
 COPY 100-opendcim.ini /etc/php/7.2/apache2/conf.d
 
 RUN mkdir -p /var/www/html/vendor/mpdf/ttfontdata && mkdir -p /var/www/html/assets && chown -R www-data:www-data /var/www/html && \
-  chmod 775 /var/www/html/assets /var/www/html/pictures /var/www/html/drawings /var/www/html/vendor/mpdf/ttfontdata && rm -f /var/log/apache2/*.log && ln -s /dev/stderr /var/log/apache2/error.log && ln -s /dev/stdout /var/log/apache2/access.log
+  chmod -R 775 /var/www/html/assets /var/www/html/vendor/mpdf/ttfontdata && rm -f /var/log/apache2/*.log && \
+  ln -s /dev/stderr /var/log/apache2/error.log && ln -s /dev/stdout /var/log/apache2/access.log
 
 CMD apachectl -D FOREGROUND
