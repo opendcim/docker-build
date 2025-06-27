@@ -1,0 +1,18 @@
+FROM php:7.4-fpm
+
+RUN apt-get update && apt-get install -y mariadb-client redis-tools libxml2-dev locales libcurl4-openssl-dev \
+    libzip-dev snmp libsnmp-dev libldap2-dev libpng-dev && pecl install redis-5.1.1 && \
+    docker-php-ext-install pdo_mysql xml curl zip gettext snmp ldap gd
+
+ENV LANG en_US.utf8
+
+COPY dcim/ /var/www/html/
+COPY dcim/db.inc.php-dist /var/www/html/db.inc.php
+# Use a different installer for the containers - automatic, and requiring the db to be new or at least at 19.01
+COPY dcim/container-install.php /var/www/html/install.php
+COPY 100-opendcim.ini /usr/local/etc/php/conf.d
+
+RUN mkdir -p /var/www/html/vendor/mpdf/ttfontdata && mkdir -p /var/www/html/assets && \
+    chown -R www-data:www-data /var/www/html && \ 
+    chmod -R 775 /var/www/html/assets /var/www/html/vendor/mpdf/ttfontdata  
+

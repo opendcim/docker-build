@@ -3,19 +3,27 @@
 set -ex
 
 # Clean up old builds that may have failed
-rm -rf dcim openDCIM-master openDCIM-master.zip master.zip
+rm -rf dcim openDCIM-master openDCIM-master.zip master.zip openDCIM-*.tar.gz
 
-wget https://github.com/samilliken/openDCIM/archive/20.01.tar.gz
 
-tar zxf 20.01.tar.gz
-mv openDCIM-20.01 dcim
+# wget https://opendcim.org/packages/openDCIM-24.01.tar.gz
+wget https://github.com/samilliken/openDCIM/archive/master.zip
 
-docker build . -t opendcim/opendcim:20.01 --no-cache
+# tar zxf openDCIM-24.01.tar.gz
+unzip master.zip
+
+# mv openDCIM-24.01 dcim
+mv openDCIM-master dcim
+rm dcim/install.php
+cp dcim/container-install.php dcim/install.php
+
+docker build . --no-cache -t opendcim/opendcim:24.01-beta
 
 # To push to docker hub, you must either already be logged in, or add the following line:
 # docker login -u mydockerid -p mydockerpassword
 
-docker push opendcim/opendcim:20.01
+docker push opendcim/opendcim:24.01-beta
 
 rm -rf dcim
-rm 20.01.tar.gz
+rm -f openDCIM-*.tar.gz
+rm -f master.zip
